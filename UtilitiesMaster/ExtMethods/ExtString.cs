@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UtilitiesMaster.ExtMethods.ExtString
 {
@@ -10,7 +11,7 @@ namespace UtilitiesMaster.ExtMethods.ExtString
 			int len = value.Length;
 			if (length == 0) return "";
 			if (len <= length) return value;
-			return value.Substring(0, length);
+			return value[..length];
 		}
 
 		public static string Right(this string value, int length)
@@ -19,7 +20,7 @@ namespace UtilitiesMaster.ExtMethods.ExtString
 			int len = value.Length;
 			if (length == 0) return "";
 			if (len <= length) return value;
-			return value.Substring(value.Length - length);
+			return value[^length..];
 		}
 
 		public static string LeadStr(this string strIn, int ShowLen)
@@ -29,7 +30,7 @@ namespace UtilitiesMaster.ExtMethods.ExtString
 			int ls = strIn.Length;
 			if (ls <= ShowLen) return strIn;
 
-			return strIn.Substring(0, ShowLen) + "...";
+			return string.Concat(strIn.AsSpan(0, ShowLen), "...");
 		}
 
 		// Returns null when given an empty string.
@@ -39,28 +40,28 @@ namespace UtilitiesMaster.ExtMethods.ExtString
 		}
 
 
-		public static bool IsEmpty(this string val)
+		public static bool IsEmpty([NotNullWhen(false)] this string? val)
 		{
 			return String.IsNullOrWhiteSpace(val);
 		}
 
-		public static bool IsNotEmpty(this string val)
+		public static bool IsNotEmpty([NotNullWhen(true)] this string? val)
 		{
 			return !String.IsNullOrWhiteSpace(val);
 		}
 
 
-		public static bool StrictEqual(this string val, string other)
+		public static bool StrictEqual(this string? val, string? other)
 		{
 			return String.CompareOrdinal(val, other) == 0;
 		}
 
-		public static bool LooseEqual(this string val, string other)
+		public static bool LooseEqual(this string? val, string? other)
 		{
 			return String.Compare(val, other, System.Globalization.CultureInfo.CurrentCulture, System.Globalization.CompareOptions.IgnoreCase) == 0;
 		}
 
-		public static bool IsGreaterThanOrEqual(this string val, string other)
+		public static bool IsGreaterThanOrEqual(this string? val, string? other)
 		{
 			return String.CompareOrdinal(val, other) >= 0;
 		}
@@ -107,7 +108,7 @@ namespace UtilitiesMaster.ExtMethods.ExtString
 			//Fri Mar 18 21:19:23 +0000 2011
 			//0123456789012345678901234567890
 
-			return DateTime.Parse(val.Substring(0, 3) + ", " + val.Substring(8, 2) + " " + val.Substring(4, 3) + " " + val.Substring(26, 4) + " " + val.Substring(11, 8) + " GMT", null, System.Globalization.DateTimeStyles.RoundtripKind);
+			return DateTime.Parse(val[..3] + ", " + val.Substring(8, 2) + " " + val.Substring(4, 3) + " " + val.Substring(26, 4) + " " + val.Substring(11, 8) + " GMT", null, System.Globalization.DateTimeStyles.RoundtripKind);
 
 			//"Mon, 15 Sep 2008 09:30:41 GMT"
 

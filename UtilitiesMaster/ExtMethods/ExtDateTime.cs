@@ -91,8 +91,13 @@ namespace UtilitiesMaster.ExtMethods.ExtDateTime
 			return localNow.ToString("MM/dd-hh:mmtt") + sfx;
 		}
 
+		public static string ToFileNameStamp(this DateTime dtIn)
+		{
+			return dtIn.ToString("yyMMdd-HHmmss");
+		}
 
-		#endregion
+
+#endregion
 
 	}
 }
