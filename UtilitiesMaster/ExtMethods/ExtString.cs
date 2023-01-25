@@ -63,11 +63,15 @@ namespace UtilitiesMaster.ExtMethods.ExtString
 
 		public static bool IsGreaterThanOrEqual(this string? val, string? other)
 		{
+			if (val == null && other == null) return true;
+			if (val == null || other == null) return false;
 			return String.CompareOrdinal(val, other) >= 0;
 		}
 
-		public static bool IsLessThanOrEqual(this string val, string other)
+		public static bool IsLessThanOrEqual(this string? val, string? other)
 		{
+			if (val == null && other == null) return true;
+			if (val == null || other == null) return false;
 			return String.CompareOrdinal(val, other) <= 0;
 		}
 

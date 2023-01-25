@@ -53,37 +53,21 @@ namespace UtilitiesMaster.ExtMethods.ExtDateTime
 		{
 			DateTime localNow = TimeZoneInfo.ConvertTimeFromUtc(dateInUTC, localZone);
 
-			string
-				lzid = localZone.Id,
-				sfx;
+			string lzid = localZone.Id;
 
-			switch (lzid)
+			string sfx = lzid switch
 			{
-				case "Hawaiian Standard Time":
-					sfx = "HST";
-					break;
-				case "Alaskan Standard Time":
-					sfx = "AST";
-					break;
-				case "Pacific Standard Time":
-					sfx = "PST";
-					break;
-				case "Mountain Standard Time":
-					sfx = "MST";
-					break;
-				case "Central Standard Time":
-					sfx = "CST";
-					break;
-				case "Eastern Standard Time":
-					sfx = "EST";
-					break;
-				default:
-					sfx = "";
-					break;
-			}
+				"Hawaiian Standard Time" => "HST",
+				"Alaskan Standard Time" => "AST",
+				"Pacific Standard Time" => "PST",
+				"Mountain Standard Time" => "MST",
+				"Central Standard Time" => "CST",
+				"Eastern Standard Time" => "EST",
+				_ => "",
+			};
 
 			if (sfx.Length == 3 && localZone.IsDaylightSavingTime(localNow))
-				sfx = sfx.Substring(0, 1) + "DT";
+				sfx = string.Concat(sfx.AsSpan(0, 1), "DT");
 
 			if (sfx.Length > 0)
 				sfx = " " + sfx;
