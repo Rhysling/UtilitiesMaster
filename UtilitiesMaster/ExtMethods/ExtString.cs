@@ -107,6 +107,16 @@ namespace UtilitiesMaster.ExtMethods.ExtString
 		}
 
 
+		public static long ToUnixTimeFromDateTimeString(this string dateTimeString)
+		{
+			if (DateTime.TryParse(dateTimeString, out var dt))
+			{
+				return (long)(dt - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+			};
+			return 0L;
+		}
+
+
 		public static DateTime GmtFromTwitter(this string val)
 		{
 			//Fri Mar 18 21:19:23 +0000 2011
